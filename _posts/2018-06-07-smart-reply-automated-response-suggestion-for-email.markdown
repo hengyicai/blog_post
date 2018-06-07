@@ -39,7 +39,7 @@ description: "本文来自 Google，发表于 KDD 2016, 文章提出了一种用
 
 ![](https://ws1.sinaimg.cn/large/006tKfTcly1fs2ngcgasfj30ct020aa2.jpg)
 
-这个很简单，就是在 decoding 的过程中，累乘目标 token 的概率值即可。模型的训练则是用 $<message, response>$ 对儿来进行训练。
+这个很简单，就是在 decoding 的过程中，累乘目标 token 的概率值即可。模型的训练则是用 $(message, response)$ 对儿来进行训练。
 
 ## Response set generation:
 该模块的目的就是产生一个 response 集合，该集合尽可能覆盖较多的回复类型，来保证多样性。作者在这里使用图聚类的方式来产生多个 cluster，每个cluster对应与某一种 intent，cluster 内包含有多条相同 intent 的 response。 比如 “Ha ha”，“lol”， “Oh that’s funny! ” 同属于 funny 这个 intent。
@@ -69,7 +69,7 @@ description: "本文来自 Google，发表于 KDD 2016, 文章提出了一种用
 2.  Enforcing Negatives and Positives：如果 Tok-K 个都是 Positive 的回答，则将候选集中的 Negative response 送入 Seq2Seq 中计算得分，得到一个 negative 的最优 response，插入到 结果中（结果一般取三个response）。反过来，如果一开始得到的都是 Negative 的，则执行上述过程以得到一个 Positive 的，最终目的是为了提高 Diversity。
 
 ## Triggering model：
-这个模块其实是一个 MLP 二分类器，数据形式为 $<message, True/False>$, 表示该 message 是否得到了回复。
+这个模块其实是一个 MLP 二分类器，数据形式为 $(message, True/False)$, 表示该 message 是否得到了回复。
 
 对于作者提出的这个系统，文章最后结合其他 baseline 做了准确率，MRR(Mean Reciprocal Rank) 方面的对比，并针对系统的使用情况给出了一些量化结果，比如：使用推荐 reply 的用户占比大概10%，在所有使用推荐 reply 的用户中，45% 的用户选择了第一个, 35% 的用户选择了第二个，20% 的用户选择了第三个。
 
